@@ -1,21 +1,21 @@
 class Solution {
     public int findPairs(int[] nums, int k) {
-        Arrays.sort(nums);
-        int len = nums.length, i=0, j=0, count=0;
-        while(i < len && j < len){
-            if(i==j) {
-                j++;
-                continue;
+        int len=nums.length, count=0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int val : nums){
+            if(!map.containsKey(val)){
+                if(map.containsKey(val + k)) count++;
+                if(map.containsKey(val - k)) count++;
             }
-            int diff = nums[j] - nums[i];
-            if(diff < k) j++;
-            else if(diff > k) i++;
-            else{
-                count++;
-                int val1 = nums[i], val2 = nums[j];
-                while(i < len && nums[i] == val1) i++;
-                while(j < len && nums[j] == val2) j++;
-            }
+            if(map.containsKey(val)) map.put(val, map.get(val)+1);
+            else map.put(val, 1);
+        }
+        return k != 0 ? count : findDiffZero(map);
+    }
+    public int findDiffZero(HashMap<Integer, Integer> map){
+        int count = 0;
+        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+            if(entry.getValue() > 1) count++;
         }
         return count;
     }
