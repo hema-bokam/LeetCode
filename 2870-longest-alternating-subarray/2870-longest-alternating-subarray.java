@@ -7,9 +7,13 @@ class Solution {
                 j++;
                 diff *= -1;
             }
-            else{
-                i++;
-                j = i+1;
+            else if(nums[j]-nums[j-1] == 1){
+                i=j-1;;
+                diff = 1;
+            }
+            else {
+                i=j;
+                j++;
                 diff = 1;
             }
         }
