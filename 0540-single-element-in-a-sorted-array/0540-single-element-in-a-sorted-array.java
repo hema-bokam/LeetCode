@@ -1,20 +1,19 @@
 class Solution {
     public int singleNonDuplicate(int[] nums) {
-        int len = nums.length, low = 0, high = len-1;
+        int len = nums.length, low = 0, high = len-1, ans = 0;
         while(low <= high){
             int mid = low + (high-low)/2;
-            if(mid > 0 && nums[mid] == nums[mid-1]){
-                int leftSubArrLen = mid-low+1;
-                if(leftSubArrLen % 2 == 0) low = mid+1;
-                else high = mid-2;  
-            }
-            else if(mid < len-1 && nums[mid] == nums[mid+1]){
-                int rightSubArrLen = high-mid+1;
-                if(rightSubArrLen % 2 == 0) high = mid-1;
-                else low = mid+2;
-            }
-            else return nums[mid];
+            if(mid == len-1) return nums[len-1];
+            if(nums[mid] == nums[mid+1]) mid++;
+            //we are checking for index <= mid 
+            //if mid is odd which means subarraylen is even so all are duplicate, move left
+            if(mid % 2 == 1) low = mid+1;
+            //if mid is even which means subarraylen is odd so duplicate will be in [0, mid] range.
+            else{
+                ans = mid;
+                high = mid-1;
+            } 
         }
-        return -1;
+        return nums[ans];
     }
 }
