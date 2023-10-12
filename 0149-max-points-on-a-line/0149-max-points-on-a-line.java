@@ -7,12 +7,13 @@ class Solution {
         int finalMax = 0;
         int len = points.length;
         for(int i=0; i<len; i++){
+            // we find slope with point[i] to every other point and find maxPoints possible
             int samePoints = 0, maxPoints = 0;
             for(int j=i+1; j<len; j++){
                 int x1 = points[i][0], y1 = points[i][1], x2 = points[j][0], y2 = points[j][1];
                 // to handle 0/0 case, which means point1 and point2 are same
                 if(x1 == x2 && y1 == y2){
-                    samePoints++;
+                    samePoints++; 
                     continue;
                 }else{
                     int gcd = findGcd(y2-y1, x2-x1);
@@ -22,7 +23,7 @@ class Solution {
                     maxPoints = Math.max(maxPoints, map.get(slope)); 
                 }
             }
-            finalMax = Math.max(finalMax, 1+samePoints+maxPoints);
+            finalMax = Math.max(finalMax, 1+samePoints+maxPoints); // 1 for point[i]
             map.clear();
         }
         return finalMax;
