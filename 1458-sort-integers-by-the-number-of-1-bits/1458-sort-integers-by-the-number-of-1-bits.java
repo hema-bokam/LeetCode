@@ -1,17 +1,9 @@
 class CustomComparator implements Comparator<Integer>{
     public int compare(Integer a, Integer b){
-        int oneBitsinA = findOneBits(a);
-        int oneBitsinB = findOneBits(b);
+        int oneBitsinA = Integer.bitCount(a);
+        int oneBitsinB = Integer.bitCount(b);
         if(oneBitsinA == oneBitsinB) return a-b;
         return oneBitsinA - oneBitsinB;
-    }
-    public int findOneBits(int num){
-        int i=0, count = 0;
-        while(i <= 31){
-            if(((num >> i)& 1) == 1) count++;
-            i++;
-        }
-        return count;
     }
 }
 class Solution {
