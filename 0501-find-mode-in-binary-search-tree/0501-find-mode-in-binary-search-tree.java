@@ -13,25 +13,27 @@
  *     }
  * }
  */
+ //inorder traversal is sorted
 class Solution {
-    HashMap<Integer, Integer> map = new HashMap<>();
-    int maxFreq = 0;
+    int currNum = 0, maxFreq = 0, currFreq = 0;
+    List<Integer> arr = new ArrayList<>();
     public int[] findMode(TreeNode root) {
-        fillMap(root);
-        List<Integer> arr = new ArrayList<>();
-        for(Integer key : map.keySet()){
-            if(map.get(key) == maxFreq){
-                arr.add(key);
-            }
-        }
+        inOrder(root);
         return arr.stream().mapToInt(val -> val).toArray();
     }
-    public void fillMap(TreeNode root){
+    public void inOrder(TreeNode root){
         if(root == null) return;
-        map.put(root.val, map.getOrDefault(root.val, 0)+1);
-        maxFreq = Math.max(maxFreq, map.get(root.val));
-        fillMap(root.left);
-        fillMap(root.right);
-        return;
+        inOrder(root.left);
+        if(root.val == currNum) currFreq++;
+        else{
+            currNum = root.val;
+            currFreq = 1;
+        }
+        if(currFreq > maxFreq){
+            arr = new ArrayList<>();
+            arr.add(root.val);
+            maxFreq = currFreq;
+        }else if(currFreq == maxFreq) arr.add(root.val);
+        inOrder(root.right);
     }
 }
