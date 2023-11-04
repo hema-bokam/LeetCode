@@ -1,35 +1,23 @@
 class Solution {
     public String convert(String s, int numRows) {
-        if(numRows == 1 || s.length() <= numRows) return s;
-        List<StringBuilder> list = new ArrayList<>(numRows);
-        for(int i=0; i<numRows; i++) list.add(new StringBuilder(""));
-        int idx = 0, len = s.length();
-        boolean isDec = false;
-        for(int i=0; i<len; i++){
-            char ch = s.charAt(i);
-            if(idx >=0 && isDec){
-                list.get(idx).append(ch);
-                if(idx > 0) idx--;
-                else if(idx == 0){
-                    idx++;
-                    isDec = false;
-                }
-            }
-            else{
-                list.get(idx).append(ch);
-                if(idx < numRows-1) idx++;
-                else if(idx == numRows - 1){
-                    idx--;
-                    isDec = true;
-                }
-            }
+        int N=s.length();
+        if(numRows==1 || numRows>=N) return s;
+        List<StringBuffer> list=new ArrayList<>();
+        int i=0,j=0;
+        for(int k=0;k<numRows;k++){
+            list.add(new StringBuffer());
         }
-        StringBuilder res = new StringBuilder("");
-        for(int i=0; i<numRows; i++){
-            if(list.get(i).equals("")) continue;
-            // System.out.println(list.get(i).toString());
-            res.append(list.get(i));
+        while(i<N){
+            char ch=s.charAt(i);
+            j=i%(numRows-1);
+            if(((i/(numRows-1))%2)!=0) j=numRows-1-j;  // for odd chunks we need to find right row
+            list.get(j).append(ch);
+            i++;
         }
-        return res.toString();
+        StringBuffer ans=new StringBuffer();
+        for(StringBuffer sb:list){
+            ans.append(sb);
+        }
+        return ans.toString();
     }
 }
