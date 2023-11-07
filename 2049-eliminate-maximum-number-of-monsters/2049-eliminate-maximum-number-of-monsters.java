@@ -1,15 +1,19 @@
 class Solution {
     public int eliminateMaximum(int[] dist, int[] speed) {
-        PriorityQueue<Double> pq = new PriorityQueue<>();
         int len = dist.length;
-        for(int i=0; i<len; ++i){
-            pq.add((double)dist[i]/speed[i]);
+        int[] time = new int[len]; // time to reach city
+        int[] count = new int[len];
+        for(int i=0; i<len; i++){
+            time[i] = (int)Math.ceil((double)dist[i] / speed[i]);
         }
-        int ans = 0;
-        while(!pq.isEmpty()){
-            if(pq.remove() <= ans) break;
-            ans++;
+        for(int val : time){
+            if(val >= len) continue;
+            count[val]++; // it will tell you, the total monsters that will arrive at each minute
         }
-        return ans;
+        for(int i=1; i<len; i++){
+            count[i] += count[i-1];
+            if(count[i] > i) return i;
+        }
+        return len;
     }
 }
