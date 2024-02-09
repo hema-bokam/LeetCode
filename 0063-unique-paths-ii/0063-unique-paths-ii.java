@@ -3,14 +3,14 @@ class Solution {
         int rows = obstacleGrid.length, cols = obstacleGrid[0].length;
         int[][] dp = new int[rows][cols];
         for(int i=0; i<rows; i++){
-            Arrays.fill(dp[i], -1);
+            for(int j=0; j<cols; j++){
+                if(i == 0) dp[i][j] = obstacleGrid[i][j] == 1 ? 0 : (j > 0 ? dp[i][j-1] : 1);
+                else if(j==0) dp[i][j] = obstacleGrid[i][j] == 1 ? 0 : (i > 0 ? dp[i-1][j] : 1);
+                else{
+                    dp[i][j] = obstacleGrid[i][j] == 1 ? 0 : dp[i-1][j] + dp[i][j-1];
+                }
+            }
         }
-        return findTotalUniquePathsWithObstacles(dp, obstacleGrid, rows-1, cols-1);
-    }
-    public int findTotalUniquePathsWithObstacles(int[][] dp, int[][] obstacleGrid, int m, int n){
-        if(m<0 || n<0 || obstacleGrid[m][n] == 1) return 0;
-        if(m == 0 && n==0) return 1;
-        if(dp[m][n] != -1) return dp[m][n];
-        return dp[m][n] = findTotalUniquePathsWithObstacles(dp, obstacleGrid, m-1, n) + findTotalUniquePathsWithObstacles(dp, obstacleGrid, m, n-1);
+        return dp[rows-1][cols-1];
     }
 }
